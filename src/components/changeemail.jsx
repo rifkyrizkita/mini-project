@@ -17,6 +17,7 @@ import {
   import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
   import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Navbar } from "./navbar";
   export default function ChangeEmailForm() {
       
       const data = useSelector((state) => state.user.value)
@@ -68,6 +69,7 @@ import { useSelector } from "react-redux";
         {(props) => {
           return (
             <Form>
+              
               <Flex
                 minH={"100vh"}
                 align={"center"}

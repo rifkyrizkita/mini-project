@@ -86,15 +86,15 @@ export function CreateBlog() {
         {(props) => {
           return (
             <Form>
-              <Flex w={"100vw"}>
-                <Flex w={"50%"} border={"2px"}>
+              <Flex>
+                <Flex w={"50%"}>
                   <Box>
-                    <Box>
+                    <Box >
                       <Field name="title">
                         {({ field }) => (
                           <FormControl>
                             <FormLabel htmlFor="title">Title</FormLabel>
-                            <Input {...field} type="text" id="title" />
+                            <Input {...field} type="text" id="title" bgColor={"white"}/>
                           </FormControl>
                         )}
                       </Field>
@@ -109,7 +109,7 @@ export function CreateBlog() {
                         {({ field }) => (
                           <FormControl>
                             <FormLabel htmlFor="country">Country</FormLabel>
-                            <Input {...field} type="text" id="country" />
+                            <Input {...field} type="text" id="country" bgColor={"white"}/>
                           </FormControl>
                         )}
                       </Field>
@@ -125,7 +125,7 @@ export function CreateBlog() {
                         {({ field }) => (
                           <FormControl>
                             <FormLabel htmlFor="CategoryId">Category</FormLabel>
-                            <Select {...field} placeholder="Select option">
+                            <Select {...field} placeholder="Select option" bgColor={"white"}>
                               {category.map((value, index) => {
                                 return (
                                   <option key={index} value={value.id}>
@@ -149,7 +149,7 @@ export function CreateBlog() {
                         {({ field }) => (
                           <FormControl>
                             <FormLabel htmlFor="url">Link</FormLabel>
-                            <Input {...field} type="text" id="url" />
+                            <Input {...field} type="text" id="url" bgColor={"white"}/>
                           </FormControl>
                         )}
                       </Field>
@@ -167,6 +167,7 @@ export function CreateBlog() {
                               }}
                               type="file"
                               id="file"
+                              bgColor={"white"}
                             />
                           </FormControl>
                         )}
@@ -180,16 +181,16 @@ export function CreateBlog() {
                     </Box>
                   </Box>
                 </Flex>
-                <Flex w={"50%"} border={"2px"}>
+                <Flex w={"50%"}>
                   <Box>
                     <Box>
                       <Field name="content">
                         {({ field }) => (
                           <FormControl>
                             <FormLabel htmlFor="content">
-                              Tulis isi blogmu!!!
+                              Your Blog Content
                             </FormLabel>
-                            <Textarea {...field} type="text" id="content" />
+                            <Textarea {...field} type="text" id="content" bgColor={"white"}/>
                           </FormControl>
                         )}
                       </Field>
@@ -205,7 +206,7 @@ export function CreateBlog() {
                         {({ field }) => (
                           <FormControl>
                             <FormLabel htmlFor="url">Keywords</FormLabel>
-                            <Input {...field} type="text" id="keywords" />
+                            <Input {...field} type="text" id="keywords" bgColor={"white"} />
                           </FormControl>
                         )}
                       </Field>

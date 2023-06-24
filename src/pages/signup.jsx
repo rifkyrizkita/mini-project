@@ -44,8 +44,8 @@ export function Signup() {
   });
 
   const handleSubmit = async (data) => {
-    data.FE_URL= "http://localhost:3000"
     try {
+      data.FE_URL= window.location.origin
       const response = await Axios.post(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/",
         data

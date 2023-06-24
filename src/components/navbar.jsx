@@ -27,37 +27,21 @@ export function Navbar() {
       navigate("/")
     }, 1000)}
   return (
-    <Box bgColor={"#82AAE3"} color={"white"} h={"100px"} w={"100%"}>
+    <Box bgGradient={"linear(to-r,blue.600,blue.400,blue.200)"} color={"white"} h={"100px"} w={"100%"} boxShadow={"3px 3px 5px gray"}>
       <Flex justifyContent={"space-around"} alignItems={"center"} h={"100%"}>
-        <Flex fontSize={"5xl"} fontWeight={"bold"}>
+        <Flex fontSize={"5xl"} fontWeight={"bold"} _hover={{transform:"scale(1.2)", transition:"0.3s"}} cursor={"pointer"} onClick={() => navigate("/")}>
           Trial Blog
         </Flex>
+        
         <Flex>
-          <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-              Category
-            </MenuButton>
-            <MenuList color={"black"} zIndex={"2000"}>
-              <MenuItem>Download</MenuItem>
-              <MenuItem>Create a Copy</MenuItem>
-              <MenuItem>Mark as Draft</MenuItem>
-              <MenuItem>Delete</MenuItem>
-              <MenuItem>Attend a Workshop</MenuItem>
-            </MenuList>
-          </Menu>
-        </Flex>
-        <Flex>
-          <InputGroup size="md">
-            <Input pr="4.5rem" bgColor={"white"} color={"black"} />
-            <InputRightElement width="4.5rem">
-              <Button>Search</Button>
-            </InputRightElement>
-          </InputGroup>
+          
+              <Button onClick={() => navigate("/search")}>Search</Button>
+           
         </Flex>
         {token ? (
           <Flex>
             
-            <Avatar mr={"2vw"} onClick={() => navigate("/profile")} src={`https://minpro-blog.purwadhikabootcamp.com/${data.imgProfile}`}/>
+            <Avatar cursor="pointer" mr={"2vw"} onClick={() => navigate("/profile")} src={`https://minpro-blog.purwadhikabootcamp.com/${data.imgProfile}`}/>
             <Button onClick={logout}>Log out</Button>
           </Flex>
         ) : (

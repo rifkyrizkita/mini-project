@@ -1,25 +1,30 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Table, Tbody, Tr, Td, Box, Flex, } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Table, Tbody, Tr, Td, Box, Flex, Image, } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import Axios from "axios"
+import { useNavigate } from 'react-router-dom';
 
 export const Article = () => {
   const [data, setdata] = useState({})
+  const navigate = useNavigate()
+  const handleClick = (id) => {
+    navigate(`blog/${id}`);
+  };
 
 useEffect(() => {
-  Axios.get("https://minpro-blog.purwadhikabootcamp.com/api/blog/pagFav").then((res) => {
+  Axios.get("https://minpro-blog.purwadhikabootcamp.com/api/blog/pagFav?page=1&orderBy=total_fav&sort=DESC&size=10").then((res) => {
+    console.log(res);
     setdata(res.data)
   })
 }, [])
 
   return (
     <Box  >
-      <Flex justify={"center"} h={"25vh"}>
+      <Flex justify={"center"} >
         
-    <Tabs variant="soft-rounded" bgColor={"white"} w={"80%"} align={"center"}>
+    <Tabs variant="soft-rounded" bgColor={"white"} w={"80%"} align={"center"} >
       <TabList >
         <Tab>Popular</Tab>
-        <Tab>Recent</Tab>
-        
+       
       </TabList>
       <TabPanels>
         <TabPanel>
@@ -28,7 +33,38 @@ useEffect(() => {
               <Tr>
                 {data.result ? data.result.map((value, index) => {
                   return(
+                    
+
                     <Td key={index}> {value.title}</Td>
+                    
+
+                  )
+                }): null}
+              </Tr>
+              <Tr>
+                {data.result ? data.result.map((value, index) => {
+                  return(
+                    
+
+                    <Td key={index}> {`Likes : ${value.total_fav}`}</Td>
+                    
+
+                  )
+                }): null}
+              </Tr>
+              <Tr>
+                {data.result ? data.result.map((value, index) => {
+                  return(
+                    
+
+                    <Td key={index}> 
+                    <Flex justifyContent={"center"} w={"100px"}>
+
+                    <Image cursor={"pointer"} border={"1px"} w={"100px"} h={"100px"} borderRadius={"50%"} objectFit={"cover"} src={`https://minpro-blog.purwadhikabootcamp.com/${value.imageURL}`} onClick={() => handleClick(value.id)}/>
+                    </Flex>
+                    </Td>
+                    
+
                   )
                 }): null}
               </Tr>
@@ -36,18 +72,7 @@ useEffect(() => {
             </Tbody>
           </Table>
         </TabPanel>
-        <TabPanel>
-          <Table>
-            <Tbody>
-              <Tr>
-                <Td>Data 3A</Td>
-                <Td>Data 3B</Td>
-                <Td>Data 3C</Td>
-              </Tr>
-              
-            </Tbody>
-          </Table>
-        </TabPanel>
+       
       </TabPanels>
     </Tabs>
       </Flex>

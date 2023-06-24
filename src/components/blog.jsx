@@ -1,7 +1,10 @@
-import { Box, Heading, Image, Text } from "@chakra-ui/react"
+import { Avatar, Box, Flex, Heading, Image, Link, Text } from "@chakra-ui/react"
 import  Axios  from "axios"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import {  useParams } from "react-router-dom"
+import { Like } from "./like"
+import { Navbar } from "./navbar"
+import { Footer } from "./footer"
 
 export const Blog = () => {
     const params = useParams()
@@ -20,16 +23,38 @@ export const Blog = () => {
         getBlog()
     }, [])
     return(
- <>
- <Box>
-    <Heading>
-        {value?.title}
-    </Heading>
-    <Box>
-        <Image src={`https://minpro-blog.purwadhikabootcamp.com/${value?.imageURL}`}/>
-        <Text>{value?.content}</Text>
-    </Box>
+ <Box bgColor={"gray.300"} minH={"100vh"}>
+ <Navbar/>
+    <Flex justifyContent={"center"} p={"20px"} minH={"80vh"} >
+    
+        <Box>
+            <Heading mb={"10px"}>
+                {value?.title}
+            </Heading>
+            <Box maxW={"40vw"}>
+                <Link href={`https://minpro-blog.purwadhikabootcamp.com/${value?.imageURL}`} target="_blank">
+                <Image src={`https://minpro-blog.purwadhikabootcamp.com/${value?.imageURL}`}/>
+                
+                </Link>
+                
+                <Text fontWeight={"bold"} fontSize={"lg"}>{`by: ${value?.User.username}`}</Text>
+                <Text>
+                {value?.Category.name}
+                </Text>
+                <Text mb={"2vh"}>
+                    
+                {new Date(`${value?.createdAt}`).toLocaleDateString("en-us", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric"
+                        })}
+                </Text>
+                <Text fontSize={"lg"}>{value?.content}</Text>
+            </Box>
+        </Box>
+     <Like/>
+    </Flex>
+    <Footer/>
  </Box>
- </>
     )
 }

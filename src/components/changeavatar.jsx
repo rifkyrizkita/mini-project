@@ -24,6 +24,7 @@ const handleSubmit = async (value) => {
         const response = await Axios.post("https://minpro-blog.purwadhikabootcamp.com/api/profile/single-uploaded", formData, {headers})
         console.log(response);
         dispatch(setValue(response.data.imgProfile));
+        window.location.reload()
     } catch (error) {
         console.log(error);
     }
@@ -31,7 +32,7 @@ const handleSubmit = async (value) => {
     return(
  <Formik
  initialValues={{
-    imgProfile: null
+    imgProfile: ""
  }}
  validationSchema={changeAva}
  onSubmit={(value, actions) => {
@@ -41,10 +42,10 @@ const handleSubmit = async (value) => {
     {(props) =>{
         return(
             <Form>
-                <Field name="imgProfile">
+                <Field name="imgProfile" >
                     {({field}) => (
                         <FormControl>
-                           <FormLabel html="imgProfile">Image profile</FormLabel>
+                           <FormLabel html="imgProfile"></FormLabel>
                            <Input
                            {...field}
                            onChange={(e) => {
@@ -62,7 +63,7 @@ const handleSubmit = async (value) => {
                         name="imgProfile"
                         component="div"
                       />
-                      <Button isDisabled={!props.dirty} type="submit">Change</Button>
+                      <Button isDisabled={!props.dirty} type="submit" mt={"10px"}>Change</Button>
             </Form>
         )
     }}

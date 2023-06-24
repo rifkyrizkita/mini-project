@@ -20,6 +20,8 @@ import ChangeEmailForm from "./components/changeemail";
 import ChangePhoneForm from "./components/changephone";
 import { Blog } from "./components/blog";
 import { MyBlog } from "./components/myblog";
+import SearchBar from "./components/search";
+import { LikedBlog } from "./components/likedblog";
 const router = createBrowserRouter([
   {path : "/", element : <Home/>},
   {path : "/profile", element : <UserProfile/>},
@@ -30,6 +32,8 @@ const router = createBrowserRouter([
   {path : "/changephone", element : <ChangePhoneForm/>},
   {path : "/blog/:id", element : <Blog/>},
   {path : "/myblog", element : <MyBlog/>},
+  {path : "/likedblog", element : <LikedBlog/>},
+  {path : "/search", element : <SearchBar/>},
   
   {path : "/signup", element : <Signup/>},
   {path : "/login", element : <Login/>},
