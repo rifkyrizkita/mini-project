@@ -41,6 +41,7 @@ import {
   
     const handleSubmit = async (data) => {
       try {
+        data.FE_URL = window.location.origin
         const response = await Axios.patch(
           "https://minpro-blog.purwadhikabootcamp.com/api/auth/changePass",
           data,
@@ -48,7 +49,9 @@ import {
         );
   
         console.log(response);
-        navigate("/");
+        localStorage.removeItem("token")
+        navigate("/login");
+        
       } catch (err) {
         console.log(err);
       }

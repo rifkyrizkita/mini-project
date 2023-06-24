@@ -40,6 +40,7 @@ import { Navbar } from "./navbar";
   
     const handleSubmit = async (data) => {
       try {
+        data.FE_URL = window.location.origin
         const response = await Axios.patch(
           "https://minpro-blog.purwadhikabootcamp.com/api/auth/changeEmail",
           data,
@@ -47,6 +48,7 @@ import { Navbar } from "./navbar";
         );
   
         console.log(response);
+        localStorage.removeItem("token")
         navigate("/");
       } catch (err) {
         console.log(err);

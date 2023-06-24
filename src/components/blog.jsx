@@ -33,7 +33,7 @@ export const Blog = () => {
             </Heading>
             <Box maxW={"40vw"}>
                 <Link href={`https://minpro-blog.purwadhikabootcamp.com/${value?.imageURL}`} target="_blank">
-                <Image src={`https://minpro-blog.purwadhikabootcamp.com/${value?.imageURL}`}/>
+                <Image w={"1500px"} h={"500px"} src={`https://minpro-blog.purwadhikabootcamp.com/${value?.imageURL}`}/>
                 
                 </Link>
                 

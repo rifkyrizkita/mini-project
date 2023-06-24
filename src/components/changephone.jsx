@@ -41,6 +41,7 @@ export default function ChangePhoneForm() {
 
   const handleSubmit = async (data) => {
     try {
+      data.FE_URL = window.location.origin
       const response = await Axios.patch(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/changePhone",
         data,
@@ -48,7 +49,9 @@ export default function ChangePhoneForm() {
       );
 
       console.log(response);
-      navigate("/");
+      localStorage.removeItem("token")
+        navigate("/");
+      
     } catch (err) {
       console.log(err);
     }

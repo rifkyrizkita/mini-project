@@ -19,10 +19,12 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
-
+import { useNavigate } from "react-router-dom";
+import { useToast } from '@chakra-ui/react'
 export function Signup() {
+  const toast = useToast()
   const [showPassword, setShowPassword] = useState(false);
-
+const navigate = useNavigate()
   const registerSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     email: Yup.string()
@@ -51,6 +53,8 @@ export function Signup() {
         data
       );
       console.log(response.data);
+      navigate("/")
+      
     } catch (error) {
       console.log(error);
     }

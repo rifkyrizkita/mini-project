@@ -11,8 +11,10 @@ import {
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ForgotPasswordForm() {
+  const navigate = useNavigate()
   const forgotSchema = Yup.object().shape({
     email: Yup.string()
       .required("Email is required")
@@ -20,10 +22,13 @@ export default function ForgotPasswordForm() {
   });
   const handleSubmit = async (data) => {
     try {
+      data.FE_URL= window.location.origin
       const response = await Axios.put(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/forgotPass",
         data
       );
+      console.log(response);
+        navigate("/");
     } catch (error) {
       console.log(error);
     }

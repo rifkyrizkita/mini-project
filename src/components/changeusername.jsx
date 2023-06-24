@@ -39,6 +39,7 @@ import { useSelector } from "react-redux";
   
     const handleSubmit = async (data) => {
       try {
+        data.FE_URL = window.location.origin
         const response = await Axios.patch(
           "https://minpro-blog.purwadhikabootcamp.com/api/auth/changeUsername",
           data,
@@ -46,7 +47,9 @@ import { useSelector } from "react-redux";
         );
   
         console.log(response);
+        localStorage.removeItem("token")
         navigate("/");
+        
       } catch (err) {
         console.log(err);
       }

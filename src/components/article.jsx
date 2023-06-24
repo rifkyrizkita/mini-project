@@ -21,7 +21,7 @@ useEffect(() => {
     <Box  >
       <Flex justify={"center"} >
         
-    <Tabs variant="soft-rounded" bgColor={"white"} w={"80%"} align={"center"} >
+    <Tabs variant="soft-rounded" bgColor={"blue.400"} w={"80%"} color={"white"} align={"center"} >
       <TabList >
         <Tab>Popular</Tab>
        
