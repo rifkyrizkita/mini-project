@@ -13,6 +13,7 @@ import {
   Text,
   useColorModeValue,
   Link,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -20,11 +21,12 @@ import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useToast } from '@chakra-ui/react'
+
 export function Signup() {
-  const toast = useToast()
+  const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
-const navigate = useNavigate()
+  const navigate = useNavigate();
+
   const registerSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     email: Yup.string()
@@ -37,7 +39,7 @@ const navigate = useNavigate()
       .matches(/^\d+$/, "Phone number must contain only digits"),
     password: Yup.string()
       .required("Password is required")
-      .min(6, "Passwword too short")
+      .min(6, "Password too short")
       .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
       .matches(/^(?=.*(\W|_))/, "Must contain at least one symbol"),
     confirmPassword: Yup.string()
@@ -47,16 +49,31 @@ const navigate = useNavigate()
 
   const handleSubmit = async (data) => {
     try {
-      data.FE_URL= window.location.origin
+      data.FE_URL = window.location.origin;
       const response = await Axios.post(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/",
         data
       );
       console.log(response.data);
-      navigate("/")
-      
+      navigate("/");
+      toast({
+        title: "Signup Successful",
+        description: "You have successfully signed up.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top"
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Error",
+        description: "An error occurred during signup.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top"
+      });
     }
   };
 
@@ -82,7 +99,7 @@ const navigate = useNavigate()
               minH={"100vh"}
               align={"center"}
               justify={"center"}
-              bg={"gray.50"}
+              bgGradient={"linear(to-r, blue.600, blue.400, blue.200)"}
             >
               <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
                 <Stack align={"center"}>
@@ -101,7 +118,7 @@ const navigate = useNavigate()
                           </FormControl>
                         )}
                       </Field>
-                                 <ErrorMessage
+                      <ErrorMessage
                         style={{ color: "red" }}
                         name="username"
                         component="div"
@@ -109,7 +126,6 @@ const navigate = useNavigate()
 
                       <Field name="email">
                         {({ field }) => (
-                          // https://chakra-ui.com/getting-started/with-formik
                           <FormControl>
                             <FormLabel htmlFor="email">Email address</FormLabel>
                             <Input {...field} type="email" id="email" />
@@ -228,7 +244,10 @@ const navigate = useNavigate()
                     </Form>
                     <Stack pt={6}>
                       <Text align={"center"}>
-                        Already a user? <Link color={"blue.400"} href="http://localhost:3000/login">Login</Link>
+                        Already a user?{" "}
+                        <Link color={"blue.400"} href="http://localhost:3000/login">
+                          Login
+                        </Link>
                       </Text>
                     </Stack>
                   </Stack>

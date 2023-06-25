@@ -7,6 +7,7 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
@@ -14,25 +15,44 @@ import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function ForgotPasswordForm() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const toast = useToast();
   const forgotSchema = Yup.object().shape({
     email: Yup.string()
       .required("Email is required")
       .email("Invalid email format"),
   });
+
   const handleSubmit = async (data) => {
     try {
-      data.FE_URL= window.location.origin
+      data.FE_URL = window.location.origin;
       const response = await Axios.put(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/forgotPass",
         data
       );
       console.log(response);
-        navigate("/");
+      navigate("/");
+      toast({
+        title: "Reset Password Email Sent",
+        description: "An email with a reset link has been sent to your email address.",
+        status: "success",
+        position: "top",
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Failed to Reset Password",
+        description: "An error occurred while resetting your password. Please try again later.",
+        status: "error",
+        position: "top",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
+
   return (
     <Formik
       initialValues={{
@@ -50,7 +70,7 @@ export default function ForgotPasswordForm() {
             minH={"100vh"}
             align={"center"}
             justify={"center"}
-            bg={"gray.50"}
+            bgGradient={"linear(to-r, blue.600, blue.400, blue.200)"}
           >
             <Stack
               spacing={4}
@@ -65,11 +85,8 @@ export default function ForgotPasswordForm() {
               <Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
                 Forgot your password?
               </Heading>
-              <Text
-                fontSize={{ base: "sm", sm: "md" }}
-                color={"gray.800"}
-              >
-                You&apos;ll get an email with a reset link
+              <Text fontSize={{ base: "sm", sm: "md" }} color={"gray.800"}>
+                You'll get an email with a reset link
               </Text>
               <Form>
                 <Field name="email">

@@ -1,13 +1,17 @@
-import { Box, Button, Image } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import { FaTrash } from "react-icons/fa";
 import Axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const MyBlog = () => {
-  const [data, setData] = useState();
-
+  const [data, setData] = useState([]);
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  console.log(token);
+  const handleClick = (id) => {
+    navigate(`/blog/${id}`);
+  };
+
   const showBlog = async () => {
     try {
       const response = await Axios.get(
@@ -18,13 +22,11 @@ export const MyBlog = () => {
           },
         }
       );
-      console.log(response);
       setData(response.data.result);
     } catch (err) {
       console.log(err);
     }
   };
-  // console.log(data);
 
   const delBlog = async (id) => {
     try {
@@ -36,33 +38,60 @@ export const MyBlog = () => {
           },
         }
       );
-      window.location.reload()
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
   };
+
   useEffect(() => {
     showBlog();
   }, []);
 
   return (
-    <>
-      <Box>
-        {data?.map((v, i) => {
-          return (
-            <Box key={i}>
-              <Box>{v.title}</Box>
-              <Box>
-                <Image
-                  w={"200px"}
-                  src={`https://minpro-blog.purwadhikabootcamp.com/${v.imageURL}`}
-                ></Image>
-                <Button onClick={() => delBlog(v.id)}> Delete </Button>
-              </Box>
-            </Box>
-          );
-        })}
-      </Box>
-    </>
+    <Box>
+      <Flex wrap="wrap" justifyContent="center" gap={6}>
+        {data.map((v, i) => (
+          <Flex
+            key={i}
+            p={6}
+            w={{ base: "100%", sm: "50%", md: "20%" }}
+            flexDirection="column"
+            alignItems="center"
+            boxShadow="md"
+            borderRadius="md"
+            bg="white"
+          >
+            <Image
+              src={`https://minpro-blog.purwadhikabootcamp.com/${v.imageURL}`}
+              boxSize="200px"
+              objectFit="cover"
+              mb={4}
+              borderRadius="md"
+            />
+            <Heading size="md" mb={2} isTruncated maxW="200px">
+              {v.title}
+            </Heading>
+            
+            <Flex align="center" mt={4}>
+              <Button
+                colorScheme="blue"
+                mr={2}
+                onClick={() => handleClick(v.id)}
+              >
+                Read More
+              </Button>
+              <Button
+                colorScheme="red"
+                variant="outline"
+                onClick={() => delBlog(v.id)}
+              >
+                <FaTrash />
+              </Button>
+            </Flex>
+          </Flex>
+        ))}
+      </Flex>
+    </Box>
   );
 };

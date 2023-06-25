@@ -9,7 +9,6 @@ import {
   Link,
   Button,
   Heading,
-  Text,
   useColorModeValue,
   InputRightElement,
   InputGroup,
@@ -22,10 +21,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setValue } from "../redux/userSlice";
+import { useToast } from "@chakra-ui/react";
+
 export function LoginPhone() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const toast = useToast();
+
   const loginSchema = Yup.object().shape({
     phone: Yup.string()
       .required("Phone number is required")
@@ -34,7 +37,7 @@ const dispatch = useDispatch()
       .matches(/^\d+$/, "Phone number must contain only digits"),
     password: Yup.string()
       .required("Password is required")
-      .min(6, "Passwword too short")
+      .min(6, "Password too short")
       .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
       .matches(/^(?=.*(\W|_))/, "Must contain at least one symbol"),
   });
@@ -47,23 +50,37 @@ const dispatch = useDispatch()
       );
       dispatch(setValue(response.data.isAccountExist));
       localStorage.setItem("token", response.data.token);
+      toast({
+        title: "Login successful",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top"
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Login failed",
+        description: "Please check your phone and password",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position:"top"
+      });
     }
   };
+
   return (
     <Box>
       <Formik
         initialValues={{
           phone: "",
-
           password: "",
         }}
         validationSchema={loginSchema}
         onSubmit={(value, action) => {
           handleSubmit(value);
-          // action.resetForm();
-          navigate("/")
+          navigate("/");
         }}
       >
         {(props) => {
@@ -72,7 +89,7 @@ const dispatch = useDispatch()
               minH={"100vh"}
               align={"center"}
               justify={"center"}
-              bg={"gray.50"}
+              bgGradient={"linear(to-r, blue.600, blue.400, blue.200)"}
             >
               <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
                 <Stack align={"center"}>
@@ -151,7 +168,12 @@ const dispatch = useDispatch()
                           justify={"space-between"}
                         >
                           <Checkbox>Remember me</Checkbox>
-                          <Link color={"blue.400"} href="http://localhost:3000/forgot">Forgot password?</Link>
+                          <Link
+                            color={"blue.400"}
+                            href="https://main--ornate-medovik-883748.netlify.app/forgot"
+                          >
+                            Forgot password?
+                          </Link>
                         </Stack>
                         <Button
                           bg={"blue.400"}

@@ -16,8 +16,10 @@ import Axios from "axios";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate, useParams } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
+
 export default function ResetPasswordForm() {
-    const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { token } = useParams();
   const navigate = useNavigate();
   const headers = {
@@ -26,13 +28,15 @@ export default function ResetPasswordForm() {
   const resetSchema = Yup.object().shape({
     password: Yup.string()
       .required("Password is required")
-      .min(6, "Passwword too short")
+      .min(6, "Password too short")
       .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
       .matches(/^(?=.*(\W|_))/, "Must contain at least one symbol"),
     confirmPassword: Yup.string()
       .required("Password confirmation is required")
       .oneOf([Yup.ref("password")], "Passwords must match"),
   });
+
+  const toast = useToast();
 
   const handleSubmit = async (data) => {
     try {
@@ -43,9 +47,24 @@ export default function ResetPasswordForm() {
       );
 
       console.log(response);
+      toast({
+        title: "Password reset successful",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top"
+      });
       navigate("/");
     } catch (err) {
       console.log(err);
+      toast({
+        title: "Password reset failed",
+        description: "An error occurred while resetting your password",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top"
+      });
     }
   };
 
@@ -68,7 +87,7 @@ export default function ResetPasswordForm() {
               minH={"100vh"}
               align={"center"}
               justify={"center"}
-              bg={"gray.50"}
+              bgGradient={"linear(to-r, blue.600, blue.400, blue.200)"}
             >
               <Stack
                 spacing={4}
@@ -84,79 +103,67 @@ export default function ResetPasswordForm() {
                   Enter new password
                 </Heading>
                 <Field name="password">
-                        {({ field }) => (
-                          <FormControl>
-                            <FormLabel htmlFor="password">Password</FormLabel>
-                            <InputGroup>
-                              <Input
-                                {...field}
-                                type={showPassword ? "text" : "password"}
-                                id="password"
-                              />
-                              <InputRightElement h={"full"}>
-                                <Button
-                                  variant={"ghost"}
-                                  onClick={() =>
-                                    setShowPassword(
-                                      (showPassword) => !showPassword
-                                    )
-                                  }
-                                >
-                                  {showPassword ? (
-                                    <ViewIcon />
-                                  ) : (
-                                    <ViewOffIcon />
-                                  )}
-                                </Button>
-                              </InputRightElement>
-                            </InputGroup>
-                          </FormControl>
-                        )}
-                      </Field>
-                      <ErrorMessage
-                        style={{ color: "red" }}
-                        name="password"
-                        component="div"
-                      />
+                  {({ field }) => (
+                    <FormControl>
+                      <FormLabel htmlFor="password">Password</FormLabel>
+                      <InputGroup>
+                        <Input
+                          {...field}
+                          type={showPassword ? "text" : "password"}
+                          id="password"
+                        />
+                        <InputRightElement h={"full"}>
+                          <Button
+                            variant={"ghost"}
+                            onClick={() =>
+                              setShowPassword((showPassword) => !showPassword)
+                            }
+                          >
+                            {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                          </Button>
+                        </InputRightElement>
+                      </InputGroup>
+                    </FormControl>
+                  )}
+                </Field>
+                <ErrorMessage
+                  style={{ color: "red" }}
+                  name="password"
+                  component="div"
+                />
 
-                      <Field name="confirmPassword">
-                        {({ field }) => (
-                          <FormControl>
-                            <FormLabel htmlFor="confirmPassword">
-                              Password confirmation
-                            </FormLabel>
-                            <InputGroup>
-                              <Input
-                                {...field}
-                                type={showPassword ? "text" : "password"}
-                                id="confirmPassword"
-                              />
-                              <InputRightElement h={"full"}>
-                                <Button
-                                  variant={"ghost"}
-                                  onClick={() =>
-                                    setShowPassword(
-                                      (showPassword) => !showPassword
-                                    )
-                                  }
-                                >
-                                  {showPassword ? (
-                                    <ViewIcon />
-                                  ) : (
-                                    <ViewOffIcon />
-                                  )}
-                                </Button>
-                              </InputRightElement>
-                            </InputGroup>
-                          </FormControl>
-                        )}
-                      </Field>
-                      <ErrorMessage
-                        style={{ color: "red" }}
-                        name="confirmPassword"
-                        component="div"
-                      />
-               
+                <Field name="confirmPassword">
+                  {({ field }) => (
+                    <FormControl>
+                      <FormLabel htmlFor="confirmPassword">
+                        Password confirmation
+                      </FormLabel>
+                      <InputGroup>
+                        <Input
+                          {...field}
+                          type={showPassword ? "text" : "password"}
+                          id="confirmPassword"
+                        />
+                        <InputRightElement h={"full"}>
+                          <Button
+                            variant={"ghost"}
+                            onClick={() =>
+                              setShowPassword((showPassword) => !showPassword)
+                            }
+                          >
+                            {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                          </Button>
+                        </InputRightElement>
+                      </InputGroup>
+                    </FormControl>
+                  )}
+                </Field>
+                <ErrorMessage
+                  style={{ color: "red" }}
+                  name="confirmPassword"
+                  component="div"
+                />
+
                 <Stack spacing={6}>
                   <Button
                     bg={"blue.400"}

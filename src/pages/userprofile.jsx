@@ -32,6 +32,7 @@ import { CreateBlog } from "./createblog";
 import ChangeUsernameForm from "../components/changeusername";
 import { ChangeAva } from "../components/changeavatar";
 import { Footer } from "../components/footer";
+import { MyBlog } from "../components/myblog";
 export function UserProfile() {
   const navigate = useNavigate();
   const data = useSelector((state) => state.user.value);
@@ -92,11 +93,12 @@ export function UserProfile() {
           <Center py={6}>
           </Center>
           <Flex>
-            <Tabs w={"1000px"} >
-              <TabList w={"20vw"}>
+            <Tabs w={"1000px"}  >
+              <TabList w={"30vw"}>
                 <Tab>Liked Blogs</Tab>
                 <Tab>Create Blog</Tab>
                 <Tab>Profile Setting</Tab>
+                <Tab>My Blog</Tab>
               </TabList>
 
               <TabPanels>
@@ -124,6 +126,9 @@ export function UserProfile() {
                   </Button>
                   
                   </VStack>
+                </TabPanel>
+                <TabPanel>
+                  <MyBlog/>
                 </TabPanel>
               </TabPanels>
             </Tabs>

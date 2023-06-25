@@ -18,30 +18,30 @@ useEffect(() => {
 }, [])
 
   return (
-    <Box  >
-      <Flex justify={"center"} >
+    <Box   >
+      <Flex justify={"center"}  >
         
-    <Tabs variant="soft-rounded" bgColor={"blue.400"} w={"80%"} color={"white"} align={"center"} >
+    <Tabs variant="soft-rounded" bgColor={"blue.400"} maxW={"80vw"} color={"white"} align={"center"} >
       <TabList >
         <Tab>Popular</Tab>
        
       </TabList>
-      <TabPanels>
+      <TabPanels >
         <TabPanel>
-          <Table>
-            <Tbody>
-              <Tr>
+          <Table >
+            <Tbody  overflowX={"auto"}>
+              <Tr border={"2px" }  > 
                 {data.result ? data.result.map((value, index) => {
                   return(
                     
 
-                    <Td key={index}> {value.title}</Td>
+                    <Td  key={index} i> {value.title}</Td>
                     
 
                   )
                 }): null}
               </Tr>
-              <Tr>
+              <Tr >
                 {data.result ? data.result.map((value, index) => {
                   return(
                     
@@ -52,12 +52,12 @@ useEffect(() => {
                   )
                 }): null}
               </Tr>
-              <Tr>
+              <Tr >
                 {data.result ? data.result.map((value, index) => {
                   return(
                     
 
-                    <Td key={index}> 
+                    <Td key={index} > 
                     <Flex justifyContent={"center"} w={"100px"}>
 
                     <Image cursor={"pointer"} border={"1px"} w={"100px"} h={"100px"} borderRadius={"50%"} objectFit={"cover"} src={`https://minpro-blog.purwadhikabootcamp.com/${value.imageURL}`} onClick={() => handleClick(value.id)}/>

@@ -75,7 +75,7 @@ import { useSelector } from "react-redux";
                 minH={"100vh"}
                 align={"center"}
                 justify={"center"}
-                bg={"gray.50"}
+                bgGradient={"linear(to-r, blue.600, blue.400, blue.200)"}
               >
                 <Stack
                   spacing={4}

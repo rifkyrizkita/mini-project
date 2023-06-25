@@ -13,6 +13,7 @@ import {
   useColorModeValue,
   InputRightElement,
   InputGroup,
+  useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, ErrorMessage, Field } from "formik";
@@ -25,15 +26,15 @@ import { setValue } from "../redux/userSlice";
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [changeLogin, setChangeLogin] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const toast = useToast();
+
   const loginSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
-
     password: Yup.string()
       .required("Password is required")
-      .min(6, "Passwword too short")
+      .min(6, "Password is too short")
       .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
       .matches(/^(?=.*(\W|_))/, "Must contain at least one symbol"),
   });
@@ -47,16 +48,36 @@ export function Login() {
       console.log(response.data);
       dispatch(setValue(response.data.isAccountExist));
       localStorage.setItem("token", response.data.token);
+
+      toast({
+        title: "Login Successful",
+        description: "You have successfully logged in.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+
+      navigate("/");
     } catch (error) {
       console.log(error);
+
+      toast({
+        title: "Login Failed",
+        description: "Failed to log in. Please check your credentials.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     }
   };
+
   return (
     <Box>
       <Formik
         initialValues={{
           username: "",
-
           password: "",
         }}
         validationSchema={loginSchema}
@@ -73,7 +94,7 @@ export function Login() {
               minH={"100vh"}
               align={"center"}
               justify={"center"}
-              bg={"gray.50"}
+              bgGradient={"linear(to-r, blue.600, blue.400, blue.200)"}
             >
               <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
                 <Stack align={"center"}>
@@ -152,7 +173,9 @@ export function Login() {
                           justify={"space-between"}
                         >
                           <Checkbox>Remember me</Checkbox>
-                          <Link color={"blue.400"} href="http://localhost:3000/forgot">Forgot password?</Link>
+                          <Link color={"blue.400"} href="https://main--ornate-medovik-883748.netlify.app/forgot">
+                            Forgot password?
+                          </Link>
                         </Stack>
                         <Button
                           bg={"blue.400"}

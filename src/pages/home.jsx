@@ -24,7 +24,7 @@ export function Home() {
             <Carousel />
           </Flex>
         </Box>
-          <Box w={"100%"} >
+          <Box maxW={"100%"}>
             <Article/>
           </Box>
           <Box w={"100%"}>
