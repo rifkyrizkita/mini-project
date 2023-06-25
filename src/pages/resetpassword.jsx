@@ -30,7 +30,8 @@ export default function ResetPasswordForm() {
       .required("Password is required")
       .min(6, "Password too short")
       .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
-      .matches(/^(?=.*(\W|_))/, "Must contain at least one symbol"),
+      .matches(/^(?=.*(\W|_))/, "Must contain at least one symbol")
+      .matches(/.*[0-9].*/, 'Password must contain at least one number'),
     confirmPassword: Yup.string()
       .required("Password confirmation is required")
       .oneOf([Yup.ref("password")], "Passwords must match"),
