@@ -17,8 +17,11 @@ import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useToast } from "@chakra-ui/react";
+
 export default function ChangePhoneForm() {
   const data = useSelector((state) => state.user.value);
+  const toast = useToast();
 
   console.log(data);
   console.log(data.phone);
@@ -30,18 +33,18 @@ export default function ChangePhoneForm() {
   const resetSchema = Yup.object().shape({
     currentPhone: Yup.string()
       .required("Current phone number is required")
-      .oneOf([data.phone], "Current phone number is not match"),
+      .oneOf([data.phone], "Current phone number does not match"),
 
     newPhone: Yup.string()
       .required("New phone number is required")
-      .min(10, "New phone number too short")
-      .max(12, "New phone number too long")
+      .min(10, "New phone number is too short")
+      .max(12, "New phone number is too long")
       .matches(/^\d+$/, "Phone number must contain only digits"),
   });
 
   const handleSubmit = async (data) => {
     try {
-      data.FE_URL = window.location.origin
+      data.FE_URL = window.location.origin;
       const response = await Axios.patch(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/changePhone",
         data,
@@ -49,11 +52,26 @@ export default function ChangePhoneForm() {
       );
 
       console.log(response);
-      localStorage.removeItem("token")
-        navigate("/");
-      
+      localStorage.removeItem("token");
+      navigate("/");
+      toast({
+        title: "Phone number changed",
+        description: "Your phone number has been successfully changed.",
+        status: "success",
+        duration: 3000,
+        position: "top",
+        isClosable: true,
+      });
     } catch (err) {
       console.log(err);
+      toast({
+        title: "Error",
+        description: "An error occurred while changing phone number.",
+        status: "error",
+        duration: 3000,
+        position: "top",
+        isClosable: true,
+      });
     }
   };
 
@@ -66,7 +84,6 @@ export default function ChangePhoneForm() {
       validationSchema={resetSchema}
       onSubmit={(value, action) => {
         handleSubmit(value);
-        //   action.resetForm();
       }}
     >
       {(props) => {
