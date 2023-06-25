@@ -246,7 +246,7 @@ export function Signup() {
                     <Stack pt={6}>
                       <Text align={"center"}>
                         Already a user?{" "}
-                        <Link color={"blue.400"} href="http://localhost:3000/login">
+                        <Link color={"blue.400"} href="https://main--ornate-medovik-883748.netlify.app/login">
                           Login
                         </Link>
                       </Text>
